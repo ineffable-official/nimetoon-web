@@ -6,7 +6,7 @@ export default function Layout() {
       <Link href={"/"} className="w-auto h-11 flex items-center justify-center">
         NIMETOON
       </Link>
-      <form action="" className="mx-auto">
+      <form action="/search" className="mx-auto">
         <div className="flex relative">
           <input
             className="w-[400px] h-11 px-6 border-[1px] rounded-full focus:border-gray-400 outline-none"

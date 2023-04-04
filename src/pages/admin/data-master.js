@@ -25,7 +25,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/types/store", form)
+      .post(baseUrl + "/api/types", form)
       .then((res) => {
         window.location.reload(false);
       })
@@ -59,7 +59,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/statuses/store", form)
+      .post(baseUrl + "/api/statuses", form)
       .then((res) => {
         window.location.reload(false);
       })
@@ -93,7 +93,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/studios/store", form)
+      .post(baseUrl + "/api/studios", form)
       .then((res) => {
         window.location.reload(false);
       })
@@ -127,7 +127,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/genres/store", form)
+      .post(baseUrl + "/api/genres", form)
       .then((res) => {
         window.location.reload(false);
       })
@@ -161,7 +161,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/seasons/store", form)
+      .post(baseUrl + "/api/seasons", form)
       .then((res) => {
         window.location.reload(false);
       })

@@ -49,7 +49,7 @@ export default function AnimesAdmin() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/animes/store", form)
+      .post(baseUrl + "/api/animes", form)
       .then((res) => window.location.reload(false))
       .catch((err) => {
         throw err;

@@ -32,7 +32,7 @@ export default function VideosAdmin() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/videos/store", form)
+      .post(baseUrl + "/api/videos", form)
       .then((res) => window.location.reload(false))
       .catch((err) => {
         throw err;
