@@ -8,13 +8,15 @@ export default function VideosAdmin() {
   const [post, setPost] = useState([]);
   const [anime, setAnime] = useState([]);
 
+  const [userData, setUserData] = useState();
+
   const [animeSelected, setAnimeSelected] = useState(undefined);
 
   const [loading, setLoading] = useState(false);
 
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const getData = useCallback(() => {
+  const getData = () => {
     setLoading(true);
     axios
       .get(baseUrl + "/api/videos")
@@ -25,15 +27,19 @@ export default function VideosAdmin() {
       .catch((err) => {
         throw err;
       });
-  }, []);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/videos", form)
-      .then((res) => window.location.reload(false))
+      .post(baseUrl + "/api/videos", form, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
+      .then((res) => {
+        if (res.data.status) window.location.reload(false);
+      })
       .catch((err) => {
         throw err;
       });
@@ -45,7 +51,7 @@ export default function VideosAdmin() {
     }
 
     axios
-      .post(baseUrl + "/api/animes?search=" + e.target.value)
+      .get(baseUrl + "/api/animes?search=" + e.target.value)
       .then((res) => setAnime(res.data.data))
       .catch((err) => {
         throw err;
@@ -60,8 +66,20 @@ export default function VideosAdmin() {
   };
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    const userData = localStorage.getItem("user-data");
+    setUserData(userData ? JSON.parse(userData) : null);
+  }, []);
+
+  useEffect(() => {
+    const getAllData = (userData) => {
+      getData();
+    };
+
+    if (userData && userData.token) {
+      getAllData(userData);
+    }
+  }, [userData]);
+
   return (
     <div className="w-screen h-screen">
       <AdminLayout>
@@ -87,7 +105,7 @@ export default function VideosAdmin() {
                             <div className="text-normal hover:underline">
                               {p.title}
                             </div>
-                            <div className="max-h-[250px] overflow-hidden text-ellipsis text-sm my-1 text-gray-500">
+                            <div className="max-h-[250px] truncate text-sm my-1 text-gray-500">
                               {p.descriptions}
                             </div>
                           </div>

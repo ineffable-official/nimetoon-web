@@ -19,7 +19,7 @@ export default function PostCard(props) {
         </Link>
         <div className="flex my-2">
           <div className="p-1 px-2 bg-gray-50 rounded-lg text-xs">
-            100k watched
+            {props.data.viewer + " x watched"}
           </div>
         </div>
         <Link

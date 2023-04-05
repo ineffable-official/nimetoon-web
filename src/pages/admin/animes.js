@@ -1,10 +1,12 @@
 import AdminLayout from "@/components/AdminLayout";
-import PostCard from "@/components/PostCard";
 import axios from "axios";
 import { useCallback, useEffect, useReducer, useState } from "react";
 
 export default function AnimesAdmin() {
   const baseUrl = "http://localhost:8000";
+
+  const [userData, setUserData] = useState([]);
+
   const [post, setPost] = useState([]);
   const [type, setType] = useState([]);
   const [status, setStatus] = useState([]);
@@ -22,7 +24,7 @@ export default function AnimesAdmin() {
   const [genres, setGenres] = useState([]);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const getData = useCallback(() => {
+  const getData = () => {
     setLoading(true);
     axios
       .get(baseUrl + "/api/animes")
@@ -33,24 +35,32 @@ export default function AnimesAdmin() {
       .catch((err) => {
         throw err;
       });
-  }, []);
+  };
 
-  const getGenres = useCallback(() => {
+  const getGenres = (token) => {
     axios
-      .get(baseUrl + "/api/genres")
+      .get(baseUrl + "/api/genres", {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((res) => setGenres(res.data.data))
       .catch((err) => {
         throw err;
       });
-  }, []);
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/animes", form)
-      .then((res) => window.location.reload(false))
+      .post(baseUrl + "/api/animes", form, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
+      .then((res) => {
+        if (res.data.status) {
+          window.location.reload(false);
+        }
+      })
       .catch((err) => {
         throw err;
       });
@@ -61,7 +71,9 @@ export default function AnimesAdmin() {
       document.getElementById("status-options").style.display = "flex";
     }
     axios
-      .post(baseUrl + "/api/statuses?search=" + e.target.value)
+      .get(baseUrl + "/api/statuses?search=" + e.target.value, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
       .then((res) => setStatus(res.data.data))
       .catch((err) => {
         throw err;
@@ -79,7 +91,9 @@ export default function AnimesAdmin() {
       document.getElementById("studio-options").style.display = "flex";
     }
     axios
-      .post(baseUrl + "/api/studios?search=" + e.target.value)
+      .get(baseUrl + "/api/studios?search=" + e.target.value, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
       .then((res) => setStudio(res.data.data))
       .catch((err) => {
         throw err;
@@ -97,7 +111,9 @@ export default function AnimesAdmin() {
       document.getElementById("season-options").style.display = "flex";
     }
     axios
-      .post(baseUrl + "/api/seasons?search=" + e.target.value)
+      .get(baseUrl + "/api/seasons?search=" + e.target.value, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
       .then((res) => setSeason(res.data.data))
       .catch((err) => {
         throw err;
@@ -117,7 +133,11 @@ export default function AnimesAdmin() {
     }
 
     axios
-      .post(baseUrl + "/api/types?search=" + e.target.value)
+      .get(baseUrl + "/api/types?search=" + e.target.value, {
+        headers: {
+          Authorization: "Bearer " + userData.token,
+        },
+      })
       .then((res) => setType(res.data.data))
       .catch((err) => {
         throw err;
@@ -151,9 +171,21 @@ export default function AnimesAdmin() {
   };
 
   useEffect(() => {
-    getData();
-    getGenres();
-  }, [getData, getGenres]);
+    const userData = localStorage.getItem("user-data");
+    setUserData(userData ? JSON.parse(userData) : null);
+  }, []);
+
+  useEffect(() => {
+    const getAllData = (userData) => {
+      getData();
+      getGenres(userData.token)
+    };
+
+    if (userData && userData.token) {
+      getAllData(userData);
+    }
+  }, [userData]);
+
   return (
     <div className="w-screen h-screen">
       <AdminLayout>
@@ -179,7 +211,7 @@ export default function AnimesAdmin() {
                             <div className="text-normal hover:underline">
                               {p.title}
                             </div>
-                            <div className="max-h-[250px] overflow-hidden text-ellipsis text-sm my-1 text-gray-500">
+                            <div className="max-h-[250px] truncate text-sm my-1 text-gray-500">
                               {p.descriptions}
                             </div>
                           </div>

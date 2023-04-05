@@ -12,7 +12,7 @@ export default function AnimePage() {
   const router = useRouter();
   const getAnime = useCallback(() => {
     axios
-      .get(baseUrl + "/api/animes?slug" + router.query.s)
+      .get(baseUrl + "/api/animes?slug=" + router.query.s)
       .then((res) => setAnime(res.data.data))
       .catch((err) => {
         throw err;
@@ -40,7 +40,7 @@ export default function AnimePage() {
                         <div className="w-full h-full relative">
                           <div className="absolute bottom-0 left-0 p-8">
                             <div className="text-2xl font-semibold">
-                              One Piece
+                              {a.title}
                             </div>
                             <div className="flex flex-wrap gap-2">
                               {a.genres.map((g) => (

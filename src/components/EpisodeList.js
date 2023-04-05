@@ -42,7 +42,7 @@ export default function EpisodesList(props) {
                     >
                       {p.title}
                     </Link>
-                    <div className="max-h-[250px] overflow-hidden text-ellipsis text-sm my-1 text-gray-500">
+                    <div className="max-h-[150px] truncate text-sm my-1 text-gray-500">
                       {p.descriptions}
                     </div>
                   </div>

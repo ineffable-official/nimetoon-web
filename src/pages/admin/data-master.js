@@ -1,6 +1,7 @@
 import AdminLayout from "@/components/AdminLayout";
 import axios from "axios";
 import { useCallback, useEffect, useReducer, useState } from "react";
+import cookies from "next-cookies";
 
 export default function DataMaster() {
   const baseUrl = "http://localhost:8000";
@@ -11,21 +12,27 @@ export default function DataMaster() {
   const [seasons, setSeasons] = useState([]);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const getTypes = useCallback(() => {
+  const [userData, setUserData] = useState();
+
+  const getTypes = (token) => {
     axios
-      .get(baseUrl + "/api/types")
+      .get(baseUrl + "/api/types", {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((res) => setTypes(res.data.data))
       .catch((err) => {
         throw err;
       });
-  }, []);
+  };
 
   const typeSubmit = (e) => {
     e.preventDefault();
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/types", form)
+      .post(baseUrl + "/api/types", form, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
       .then((res) => {
         window.location.reload(false);
       })
@@ -37,7 +44,15 @@ export default function DataMaster() {
   const typeDestroy = (e, typeId) => {
     e.preventDefault();
     axios
-      .delete(baseUrl + "/api/types", { data: { id: typeId } })
+      .delete(
+        baseUrl + "/api/types",
+        { data: { id: typeId } },
+        {
+          headers: {
+            Authorization: "Bearer " + userData.token,
+          },
+        }
+      )
       .then((res) => {
         window.location.reload(false);
       })
@@ -45,21 +60,25 @@ export default function DataMaster() {
         throw err;
       });
   };
-  const getStatuses = useCallback(() => {
+  const getStatuses = (token) => {
     axios
-      .get(baseUrl + "/api/statuses")
+      .get(baseUrl + "/api/statuses", {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((res) => setStatuses(res.data.data))
       .catch((err) => {
         throw err;
       });
-  }, []);
+  };
 
   const statusSubmit = (e) => {
     e.preventDefault();
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/statuses", form)
+      .post(baseUrl + "/api/statuses", form, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
       .then((res) => {
         window.location.reload(false);
       })
@@ -71,7 +90,15 @@ export default function DataMaster() {
   const statusDestroy = (e, ID) => {
     e.preventDefault();
     axios
-      .delete(baseUrl + "/api/statuses", { data: { id: ID } })
+      .delete(
+        baseUrl + "/api/statuses",
+        { data: { id: ID } },
+        {
+          headers: {
+            Authorization: "Bearer " + userData.token,
+          },
+        }
+      )
       .then((res) => {
         window.location.reload(false);
       })
@@ -79,21 +106,25 @@ export default function DataMaster() {
         throw err;
       });
   };
-  const getStudios = useCallback(() => {
+  const getStudios = (token) => {
     axios
-      .get(baseUrl + "/api/studios")
+      .get(baseUrl + "/api/studios", {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((res) => setStudios(res.data.data))
       .catch((err) => {
         throw err;
       });
-  }, []);
+  };
 
   const studioSubmit = (e) => {
     e.preventDefault();
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/studios", form)
+      .post(baseUrl + "/api/studios", form, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
       .then((res) => {
         window.location.reload(false);
       })
@@ -105,7 +136,15 @@ export default function DataMaster() {
   const studioDestroy = (e, ID) => {
     e.preventDefault();
     axios
-      .delete(baseUrl + "/api/studios", { data: { id: ID } })
+      .delete(
+        baseUrl + "/api/studios",
+        { data: { id: ID } },
+        {
+          headers: {
+            Authorization: "Bearer " + userData.token,
+          },
+        }
+      )
       .then((res) => {
         window.location.reload(false);
       })
@@ -113,21 +152,25 @@ export default function DataMaster() {
         throw err;
       });
   };
-  const getGenres = useCallback(() => {
+  const getGenres = (token) => {
     axios
-      .get(baseUrl + "/api/genres")
+      .get(baseUrl + "/api/genres", {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((res) => setGenres(res.data.data))
       .catch((err) => {
         throw err;
       });
-  }, []);
+  };
 
   const genreSubmit = (e) => {
     e.preventDefault();
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/genres", form)
+      .post(baseUrl + "/api/genres", form, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
       .then((res) => {
         window.location.reload(false);
       })
@@ -139,7 +182,15 @@ export default function DataMaster() {
   const genreDestroy = (e, ID) => {
     e.preventDefault();
     axios
-      .delete(baseUrl + "/api/genres", { data: { id: ID } })
+      .delete(
+        baseUrl + "/api/genres",
+        { data: { id: ID } },
+        {
+          headers: {
+            Authorization: "Bearer " + userData.token,
+          },
+        }
+      )
       .then((res) => {
         window.location.reload(false);
       })
@@ -147,21 +198,25 @@ export default function DataMaster() {
         throw err;
       });
   };
-  const getSeasons = useCallback(() => {
+  const getSeasons = (token) => {
     axios
-      .get(baseUrl + "/api/seasons")
+      .get(baseUrl + "/api/seasons", {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((res) => setSeasons(res.data.data))
       .catch((err) => {
         throw err;
       });
-  }, []);
+  };
 
   const seasonSubmit = (e) => {
     e.preventDefault();
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/seasons", form)
+      .post(baseUrl + "/api/seasons", form, {
+        headers: { Authorization: "Bearer " + userData.token },
+      })
       .then((res) => {
         window.location.reload(false);
       })
@@ -173,7 +228,15 @@ export default function DataMaster() {
   const seasonDestroy = (e, ID) => {
     e.preventDefault();
     axios
-      .delete(baseUrl + "/api/seasons", { data: { id: ID } })
+      .delete(
+        baseUrl + "/api/seasons",
+        { data: { id: ID } },
+        {
+          headers: {
+            Authorization: "Bearer " + userData.token,
+          },
+        }
+      )
       .then((res) => {
         window.location.reload(false);
       })
@@ -183,17 +246,28 @@ export default function DataMaster() {
   };
 
   useEffect(() => {
-    getTypes();
-    getStatuses();
-    getStudios();
-    getSeasons();
-    getGenres();
-  }, [getTypes, getStatuses, getSeasons, getStudios, getGenres]);
+    const userData = localStorage.getItem("user-data");
+    setUserData(userData ? JSON.parse(userData) : null);
+  }, []);
+
+  useEffect(() => {
+    const getAllData = (userData) => {
+      getGenres(userData.token);
+      getSeasons(userData.token);
+      getStatuses(userData.token);
+      getStudios(userData.token);
+      getTypes(userData.token);
+    };
+
+    if (userData && userData.token) {
+      getAllData(userData);
+    }
+  }, [userData]);
 
   return (
     <div className="w-screen h-screen">
       <AdminLayout>
-        <h1 className="font-semibold text-xl">Animes</h1>
+        <h1 className="font-semibold text-xl">Data Master</h1>
         <div className="w-full mt-4">
           <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50">
             <div className="text-sm font-medium">Types</div>
