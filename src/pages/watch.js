@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 export default function WatchPage() {
-  const baseUrl = "http://localhost:8000";
+  
 
   const [loading, setLoading] = useState(false);
   const [video, setVideo] = useState([]);
@@ -21,7 +21,7 @@ export default function WatchPage() {
       return;
     }
     axios
-      .get(baseUrl + "/api/videos?slug=" + router.query.s + "&record=true")
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos?slug=" + router.query.s + "&record=true")
       .then((res) => {
         setVideo(res.data.data);
         setRecord(res.data.record);
@@ -37,7 +37,7 @@ export default function WatchPage() {
   const videoEnd = () => {
     axios
       .post(
-        baseUrl + `/api/viewer?user=${userData.user.id}&video=${video[0].id}`,
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/viewer?user=${userData.user.id}&video=${video[0].id}`,
         { headers: { Authorization: "Bearer " + userData.token } }
       )
       .then((res) => console.log(res.data))
@@ -62,7 +62,7 @@ export default function WatchPage() {
                 ? video.map((v) => (
                     <div className="w-full h-auto" key={v.id}>
                       <video controls id="video-player" onEnded={videoEnd}>
-                        <source src={baseUrl + "/storage/" + v.videos}></source>
+                        <source src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + v.videos}></source>
                       </video>
                       <div className="text-lg my-2">{v.title}</div>
                       <div className="w-fit my-1 py-1 px-2 rounded-md text-sm bg-gray-100">
@@ -75,7 +75,7 @@ export default function WatchPage() {
                         <div className="w-8 h-8 rounded-full overflow-hidden">
                           <picture>
                             <img
-                              src={baseUrl + "/storage/" + v.anime.images}
+                              src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + v.anime.images}
                               className="h-8"
                               alt=""
                             />
@@ -97,7 +97,7 @@ export default function WatchPage() {
                       <div className="rounded-xl overflow-hidden mb-2">
                         <picture>
                           <img
-                            src={baseUrl + "/storage/" + record.next.images}
+                            src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + record.next.images}
                             className="w-full"
                             alt=""
                           />
@@ -130,7 +130,7 @@ export default function WatchPage() {
                       <div className="rounded-xl overflow-hidden mb-2">
                         <picture>
                           <img
-                            src={baseUrl + "/storage/" + record.previous.images}
+                            src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + record.previous.images}
                             className="w-full"
                             alt=""
                           />

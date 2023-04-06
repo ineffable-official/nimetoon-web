@@ -3,7 +3,7 @@ import axios from "axios";
 import { useCallback, useEffect, useReducer, useState } from "react";
 
 export default function AnimesAdmin() {
-  const baseUrl = "http://localhost:8000";
+  
 
   const [userData, setUserData] = useState([]);
 
@@ -27,7 +27,7 @@ export default function AnimesAdmin() {
   const getData = () => {
     setLoading(true);
     axios
-      .get(baseUrl + "/api/animes")
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes")
       .then((res) => {
         setPost(res.data.data);
         setLoading(false);
@@ -39,7 +39,7 @@ export default function AnimesAdmin() {
 
   const getGenres = (token) => {
     axios
-      .get(baseUrl + "/api/genres", {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/genres", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => setGenres(res.data.data))
@@ -53,7 +53,7 @@ export default function AnimesAdmin() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/animes", form, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes", form, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => {
@@ -71,7 +71,7 @@ export default function AnimesAdmin() {
       document.getElementById("status-options").style.display = "flex";
     }
     axios
-      .get(baseUrl + "/api/statuses?search=" + e.target.value, {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/statuses?search=" + e.target.value, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => setStatus(res.data.data))
@@ -91,7 +91,7 @@ export default function AnimesAdmin() {
       document.getElementById("studio-options").style.display = "flex";
     }
     axios
-      .get(baseUrl + "/api/studios?search=" + e.target.value, {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/studios?search=" + e.target.value, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => setStudio(res.data.data))
@@ -111,7 +111,7 @@ export default function AnimesAdmin() {
       document.getElementById("season-options").style.display = "flex";
     }
     axios
-      .get(baseUrl + "/api/seasons?search=" + e.target.value, {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/seasons?search=" + e.target.value, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => setSeason(res.data.data))
@@ -133,7 +133,7 @@ export default function AnimesAdmin() {
     }
 
     axios
-      .get(baseUrl + "/api/types?search=" + e.target.value, {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/types?search=" + e.target.value, {
         headers: {
           Authorization: "Bearer " + userData.token,
         },
@@ -203,7 +203,7 @@ export default function AnimesAdmin() {
                         >
                           <picture>
                             <img
-                              src={baseUrl + "/storage/" + p.images}
+                              src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + p.images}
                               alt=""
                             />
                           </picture>

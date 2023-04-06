@@ -4,7 +4,7 @@ import { useCallback, useEffect, useReducer, useState } from "react";
 import cookies from "next-cookies";
 
 export default function DataMaster() {
-  const baseUrl = "http://localhost:8000";
+  
   const [types, setTypes] = useState([]);
   const [statuses, setStatuses] = useState([]);
   const [studios, setStudios] = useState([]);
@@ -16,7 +16,7 @@ export default function DataMaster() {
 
   const getTypes = (token) => {
     axios
-      .get(baseUrl + "/api/types", {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/types", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => setTypes(res.data.data))
@@ -30,7 +30,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/types", form, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/types", form, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => {
@@ -45,7 +45,7 @@ export default function DataMaster() {
     e.preventDefault();
     axios
       .delete(
-        baseUrl + "/api/types",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/types",
         { data: { id: typeId } },
         {
           headers: {
@@ -62,7 +62,7 @@ export default function DataMaster() {
   };
   const getStatuses = (token) => {
     axios
-      .get(baseUrl + "/api/statuses", {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/statuses", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => setStatuses(res.data.data))
@@ -76,7 +76,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/statuses", form, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/statuses", form, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => {
@@ -91,7 +91,7 @@ export default function DataMaster() {
     e.preventDefault();
     axios
       .delete(
-        baseUrl + "/api/statuses",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/statuses",
         { data: { id: ID } },
         {
           headers: {
@@ -108,7 +108,7 @@ export default function DataMaster() {
   };
   const getStudios = (token) => {
     axios
-      .get(baseUrl + "/api/studios", {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/studios", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => setStudios(res.data.data))
@@ -122,7 +122,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/studios", form, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/studios", form, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => {
@@ -137,7 +137,7 @@ export default function DataMaster() {
     e.preventDefault();
     axios
       .delete(
-        baseUrl + "/api/studios",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/studios",
         { data: { id: ID } },
         {
           headers: {
@@ -154,7 +154,7 @@ export default function DataMaster() {
   };
   const getGenres = (token) => {
     axios
-      .get(baseUrl + "/api/genres", {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/genres", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => setGenres(res.data.data))
@@ -168,7 +168,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/genres", form, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/genres", form, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => {
@@ -183,7 +183,7 @@ export default function DataMaster() {
     e.preventDefault();
     axios
       .delete(
-        baseUrl + "/api/genres",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/genres",
         { data: { id: ID } },
         {
           headers: {
@@ -200,7 +200,7 @@ export default function DataMaster() {
   };
   const getSeasons = (token) => {
     axios
-      .get(baseUrl + "/api/seasons", {
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/seasons", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => setSeasons(res.data.data))
@@ -214,7 +214,7 @@ export default function DataMaster() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/seasons", form, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/seasons", form, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => {
@@ -229,7 +229,7 @@ export default function DataMaster() {
     e.preventDefault();
     axios
       .delete(
-        baseUrl + "/api/seasons",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/seasons",
         { data: { id: ID } },
         {
           headers: {

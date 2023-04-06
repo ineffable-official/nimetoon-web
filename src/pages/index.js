@@ -4,14 +4,14 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 export default function HomeIndex() {
-  const baseUrl = "http://localhost:8000";
+  
 
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getVideos = useCallback(() => {
     axios
-      .get(baseUrl + "/api/videos")
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos")
       .then((res) => setVideos(res.data.data))
       .catch((err) => {
         throw err;

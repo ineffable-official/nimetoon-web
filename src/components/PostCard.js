@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 export default function PostCard(props) {
-  const baseUrl = "http://localhost:8000";
+  
 
   return (
     <div className="w-full h-auto hover:border-[1px] p-2 rounded-xl">
       <div className="rounded-xl overflow-hidden">
         <picture>
-          <img src={baseUrl + "/storage/" + props.data.images} alt="" />
+          <img src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + props.data.images} alt="" />
         </picture>
       </div>
       <div className="flex flex-col">
@@ -29,7 +29,7 @@ export default function PostCard(props) {
           <div className="w-10 h-10 rounded-full overflow-hidden">
             <picture>
               <img
-                src={baseUrl + "/storage/" + props.data.anime.images}
+                src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + props.data.anime.images}
                 className="h-10"
                 alt=""
               />

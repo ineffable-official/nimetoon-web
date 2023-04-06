@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 export default function Layout() {
-  const baseUrl = "http://localhost:8000";
+  
 
   const [userData, setUserData] = useState();
   const [userMenus, setUserMenus] = useState(false);
@@ -17,7 +17,7 @@ export default function Layout() {
   const handleLogout = (e) => {
     axios
       .post(
-        baseUrl + "/api/logout",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/logout",
         {},
         {
           headers: {

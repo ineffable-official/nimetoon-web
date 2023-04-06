@@ -3,13 +3,13 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 export default function EpisodesList(props) {
-  const baseUrl = "http://localhost:8000";
+  
   const [episodes, setEpisodes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getEpisodes = useCallback(() => {
     axios
-      .get(baseUrl + "/api/videos?anime_id=" + props.anime.id)
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos?anime_id=" + props.anime.id)
       .then((res) => {
         return setEpisodes(res.data.data);
       })
@@ -33,7 +33,7 @@ export default function EpisodesList(props) {
                   key={p.id}
                 >
                   <picture>
-                    <img src={baseUrl + "/storage/" + p.images} alt="" />
+                    <img src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + p.images} alt="" />
                   </picture>
                   <div className="p-3">
                     <Link

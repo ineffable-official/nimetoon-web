@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 export default function SearchPage() {
-  const baseUrl = "http://localhost:8000";
+  
 
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export default function SearchPage() {
   const getVideos = useCallback(() => {
     setLoading(true);
     axios
-      .get(baseUrl + "/api/videos?search=" + router.query.s)
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos?search=" + router.query.s)
       .then((res) => {
         setVideos(res.data.data);
         setLoading(false);

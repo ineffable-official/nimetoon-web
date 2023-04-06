@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function IndexLogin() {
-  const baseUrl = "http://localhost:8000";
+  
 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function IndexLogin() {
     const form = new FormData(e.target);
 
     axios
-      .post(baseUrl + "/api/signup", form)
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/signup", form)
       .then((res) => {
         setTimeout(() => {
           if (res.data.status) {

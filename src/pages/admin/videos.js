@@ -4,7 +4,7 @@ import axios from "axios";
 import { useCallback, useEffect, useReducer, useState } from "react";
 
 export default function VideosAdmin() {
-  const baseUrl = "http://localhost:8000";
+  
   const [post, setPost] = useState([]);
   const [anime, setAnime] = useState([]);
 
@@ -19,7 +19,7 @@ export default function VideosAdmin() {
   const getData = () => {
     setLoading(true);
     axios
-      .get(baseUrl + "/api/videos")
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos")
       .then((res) => {
         setPost(res.data.data);
         setLoading(false);
@@ -34,7 +34,7 @@ export default function VideosAdmin() {
 
     const form = new FormData(e.target);
     axios
-      .post(baseUrl + "/api/videos", form, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos", form, {
         headers: { Authorization: "Bearer " + userData.token },
       })
       .then((res) => {
@@ -51,7 +51,7 @@ export default function VideosAdmin() {
     }
 
     axios
-      .get(baseUrl + "/api/animes?search=" + e.target.value)
+      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes?search=" + e.target.value)
       .then((res) => setAnime(res.data.data))
       .catch((err) => {
         throw err;
@@ -97,7 +97,7 @@ export default function VideosAdmin() {
                         >
                           <picture>
                             <img
-                              src={baseUrl + "/storage/" + p.images}
+                              src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + p.images}
                               alt=""
                             />
                           </picture>
