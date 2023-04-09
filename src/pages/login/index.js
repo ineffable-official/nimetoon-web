@@ -40,17 +40,17 @@ export default function IndexLogin() {
       });
   };
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center dark:bg-[#17181A] dark:text-white">
       <div className="w-auto h-auto p-4">
         <h1 className="font-semibold my-4 text-xl">Login</h1>
         <form onSubmit={onSubmit}>
           <div className="flex mb-2">
-            <div className="w-11 h-11 flex items-center justify-center border-[1px] rounded-l-lg border-r-0">
+            <div className="w-11 h-11 flex items-center justify-center border-[1px] dark:border-[rgba(255,255,255,0.1)] rounded-l-lg border-r-0">
               <i className="fa-light fa-circle-user"></i>
             </div>
             <input
               type="text"
-              className="w-[250px] h-11 text-sm outline-none border-[1px] px-4 rounded-r-lg"
+              className="w-[250px] h-11 text-sm outline-none border-[1px] px-4 rounded-r-lg dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
               name="username"
               id="username"
               placeholder="Username or email"
@@ -60,12 +60,12 @@ export default function IndexLogin() {
             />
           </div>
           <div className="flex mb-2">
-            <div className="w-11 h-11 flex items-center justify-center border-[1px] rounded-l-lg border-r-0">
+            <div className="w-11 h-11 flex items-center justify-center border-[1px] dark:border-[rgba(255,255,255,0.1)] rounded-l-lg border-r-0">
               <i className="fa-light fa-key"></i>
             </div>
             <input
               type="password"
-              className="w-[250px] h-11 text-sm outline-none border-[1px] px-4 rounded-r-lg"
+              className="w-[250px] h-11 text-sm outline-none border-[1px] px-4 rounded-r-lg dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
               name="password"
               id="password"
               placeholder="Password"
@@ -75,7 +75,7 @@ export default function IndexLogin() {
             />
           </div>
           <button
-            className="w-full h-11 flex items-center justify-center border-[1px] rounded-xl hover:bg-black hover:text-white transition-all ease-in-out duration-150 text-sm"
+            className="w-full h-11 flex items-center justify-center border-[1px] rounded-xl hover:bg-black hover:text-white transition-all ease-in-out duration-150 text-sm dark:border-[rgba(255,255,255,0.1)]"
             type="submit"
             disabled={loading}
           >
@@ -89,7 +89,7 @@ export default function IndexLogin() {
           </button>
           <Link
             href={"/signup"}
-            className="w-full h-11 flex items-center justify-center border-[1px] rounded-xl hover:bg-black hover:text-white transition-all ease-in-out duration-150 text-sm cursor-pointer mt-2"
+            className="w-full h-11 flex items-center justify-center border-[1px] rounded-xl hover:bg-black hover:text-white transition-all ease-in-out duration-150 text-sm cursor-pointer mt-2 dark:border-[rgba(255,255,255,0.1)]"
           >
             SIGNUP
           </Link>

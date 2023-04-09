@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function PostCard(props) {
   return (
-    <div className="w-full h-auto hover:border-[1px] p-2 rounded-xl">
+    <div className="w-full h-auto hover:border-[1px] dark:hover:border-[rgba(255,255,255,0.1)] p-2 rounded-xl dark:text-white">
       <div className="rounded-xl overflow-hidden">
         <picture>
           <img
@@ -21,14 +21,14 @@ export default function PostCard(props) {
           {props.data.title}
         </Link>
         <div className="flex my-2">
-          <div className="p-1 px-2 bg-gray-50 rounded-lg text-xs">
+          <div className="p-1 px-2 bg-gray-50 dark:bg-[rgba(255,255,255,0.1)] rounded-lg text-xs">
             {props.data.viewer + " x watched"}
           </div>
         </div>
-        <div className="w-full my-1 text-gray-500 truncate text-sm">{props.data.descriptions}</div>
+        <div className="w-full my-1 text-gray-500 dark:text-gray-400  truncate text-sm">{props.data.descriptions}</div>
         <Link
           href={"/anime?s=" + props.data.anime.slug}
-          className="w-full h-auto flex my-2 p-2 bg-gray-100 hover:bg-gray-200 rounded-xl items-center"
+          className="w-full h-auto flex my-2 p-2 bg-gray-100 dark:bg-[rgba(255,255,255,0.1)] hover:bg-gray-200 rounded-xl items-center"
         >
           <div className="w-10 h-10 rounded-full overflow-hidden">
             <picture>

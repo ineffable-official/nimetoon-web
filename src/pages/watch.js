@@ -32,24 +32,36 @@ export default function WatchPage() {
       });
   }, [router]);
 
+  const videoLoaded = (e) => {
+    var count = 0;
+    
+    e.target.ontimeupdate = (evt) => {
+      count += 1
+      console.log(count);
+    };
+  };
+
+  const videoEnd = () => {
+    return;
+
+    if (userData) {
+      axios
+        .post(
+          process.env.NEXT_PUBLIC_BASE_URL +
+            `/api/viewer?user=${userData.user.id}&video=${video[0].id}`,
+          {},
+          { headers: { Authorization: "Bearer " + userData.token } }
+        )
+        .then((res) => console.log(res.data))
+        .catch((err) => {
+          throw err;
+        });
+    }
+  };
+
   useEffect(() => {
     getVideo();
   }, [getVideo]);
-
-  const videoOnPlaying = (e) => {};
-
-  const videoEnd = () => {
-    axios
-      .post(
-        process.env.NEXT_PUBLIC_BASE_URL +
-          `/api/viewer?user=${userData.user.id}&video=${video[0].id}`,
-        { headers: { Authorization: "Bearer " + userData.token } }
-      )
-      .then((res) => console.log(res.data))
-      .catch((err) => {
-        throw err;
-      });
-  };
 
   useEffect(() => {
     const userData = localStorage.getItem("user-data");
@@ -57,7 +69,7 @@ export default function WatchPage() {
   }, []);
 
   return (
-    <div className="w-screen h-screen overflow-hidden">
+    <div className="w-screen h-screen overflow-hidden dark:bg-[#17181A] dark:text-white">
       <IndexLayout>
         {!loading ? (
           <div className="grid grid-cols-8 gap-4 p-8 pb-32">
@@ -72,14 +84,16 @@ export default function WatchPage() {
                           v.videos
                         }
                         videoName={v.title}
+                        loaded={videoLoaded}
+                        ended={videoEnd}
                       />
-                      <div className="text-lg my-2">{v.title}</div>
-                      <div className="w-fit my-1 py-1 px-2 rounded-md text-sm bg-gray-100">
+                      <div className="text-lg my-4">{v.title}</div>
+                      <div className="w-fit my-2 py-1 px-2 rounded-md text-sm bg-gray-100 dark:bg-[rgba(255,255,255,0.1)] ">
                         {v.viewer + " x watched"}
                       </div>
                       <Link
                         href={"/anime?s=" + v.anime.slug}
-                        className="my-2 w-[300px] h-fit p-2 rounded-xl border-[1px] flex items-center hover:bg-gray-100 cursor-pointer"
+                        className="my-4 w-[300px] h-fit p-2 rounded-xl border-[1px] flex items-center hover:bg-gray-100 cursor-pointer dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.25)] "
                       >
                         <div className="w-8 h-8 rounded-full overflow-hidden">
                           <picture>
@@ -96,7 +110,7 @@ export default function WatchPage() {
                         </div>
                         <span className="mx-2">{v.anime.title}</span>
                       </Link>
-                      <div className="my-2">{v.descriptions}</div>
+                      <div className="my-4 dark:text-gray-300">{v.descriptions}</div>
                     </div>
                   ))
                 : ""}
@@ -176,7 +190,7 @@ export default function WatchPage() {
               ) : (
                 ""
               )}
-              <hr className="my-2" />
+              <hr className="my-2 dark:border-[rgba(255,255,255,0.1)]" />
             </div>
           </div>
         ) : (

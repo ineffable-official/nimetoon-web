@@ -30,7 +30,7 @@ export default function SearchPage() {
   }, [getVideos]);
 
   return (
-    <div className="w-screen h-screen overflow-hidden">
+    <div className="w-screen h-screen overflow-hidden dark:bg-[#17181A] dark:text-white">
       <IndexLayout>
         {!loading ? (
           <div className="grid grid-cols-4 gap-4 p-8 pb-32">

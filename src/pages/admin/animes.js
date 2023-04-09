@@ -187,7 +187,7 @@ export default function AnimesAdmin() {
   }, [userData]);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen dark:bg-[#17181A] dark:text-white">
       <AdminLayout>
         <div className="grid grid-cols-3 gap-4">
           <div className="w-full h-auto col-span-2">
@@ -198,7 +198,7 @@ export default function AnimesAdmin() {
                   {post
                     ? post.map((p) => (
                         <div
-                          className="w-full h-fit border-[1px] rounded-xl overflow-hidden hover:border-0 hover:shadow"
+                          className="w-full h-fit border-[1px] rounded-xl overflow-hidden hover:border-0 hover:shadow dark:border-[rgba(255,255,255,0.1)]"
                           key={p.id}
                         >
                           <picture>
@@ -236,7 +236,7 @@ export default function AnimesAdmin() {
                   type="text"
                   name="title"
                   id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Title"
                 />
               </div>
@@ -245,7 +245,7 @@ export default function AnimesAdmin() {
                   type="text"
                   name="slug"
                   id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Slug"
                 />
               </div>
@@ -254,7 +254,7 @@ export default function AnimesAdmin() {
                   type="number"
                   name="episodes"
                   id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Episodes"
                 />
               </div>
@@ -262,19 +262,19 @@ export default function AnimesAdmin() {
                 <input
                   type="text"
                   onChange={typeChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Type"
                   id="type-input"
                 />
                 <input type="hidden" name="type" value={typeSelected} />
                 <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] flex-col rounded-lg z-50 hidden"
+                  className="w-full h-auto absolute bg-white p-2 border-[1px] flex-col rounded-lg z-50 hidden dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
                   id="type-options"
                 >
                   {type
                     ? type.map((t) => (
                         <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg"
+                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
                           key={t.id}
                           onClick={(e) => selectType(t)}
                         >
@@ -288,19 +288,19 @@ export default function AnimesAdmin() {
                 <input
                   type="text"
                   onChange={statusChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)] "
                   placeholder="Status"
                   id="status-input"
                 />
                 <input type="hidden" name="status" value={statusSelected} />
                 <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50"
+                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
                   id="status-options"
                 >
                   {status
                     ? status.map((t) => (
                         <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg"
+                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:hover:bg-[rgba(255,255,255,0.1)] "
                           key={t.id}
                           onClick={(e) => selectStatus(t)}
                         >
@@ -314,19 +314,19 @@ export default function AnimesAdmin() {
                 <input
                   type="text"
                   onChange={studioChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Studio"
                   id="studio-input"
                 />
                 <input type="hidden" name="studio" value={studioSelected} />
                 <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50"
+                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
                   id="studio-options"
                 >
                   {studio
                     ? studio.map((t) => (
                         <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg"
+                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:hover:bg-[rgba(255,255,255,0.1)]"
                           key={t.id}
                           onClick={(e) => selectStudio(t)}
                         >
@@ -340,19 +340,19 @@ export default function AnimesAdmin() {
                 <input
                   type="text"
                   onChange={seasonChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Season"
                   id="season-input"
                 />
                 <input type="hidden" name="season" value={seasonSelected} />
                 <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50"
+                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
                   id="season-options"
                 >
                   {season
                     ? season.map((t) => (
                         <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg"
+                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:hover:bg-[rgba(255,255,255,0.1)]"
                           key={t.id}
                           onClick={(e) => selectSeason(t)}
                         >
@@ -370,7 +370,7 @@ export default function AnimesAdmin() {
                   type="date"
                   name="aired_from"
                   id=""
-                  className="w-full h-11 border-[1px] rounded-lg px-4 text-sm"
+                  className="w-full h-11 border-[1px] rounded-lg px-4 text-sm dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)]"
                 />
               </div>
               <div className="mb-2">
@@ -381,19 +381,19 @@ export default function AnimesAdmin() {
                   type="date"
                   name="aired_to"
                   id=""
-                  className="w-full h-11 border-[1px] rounded-lg px-4 text-sm"
+                  className="w-full h-11 border-[1px] rounded-lg px-4 text-sm dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)]"
                 />
               </div>
               <div className="mb-2">
                 <div className="text-xs">Genres</div>
-                <div className="flex gap-2 mt-1 overflow-x-scroll">
+                <div className="flex gap-2 my-2 pb-2 overflow-x-scroll">
                   {genres
                     ? genres.map((g) => (
                         <div
-                          className="p-2 py-1 text-xs bg-gray-100 rounded-md hover:border-[1px] border-0 cursor-pointer"
+                          className="p-2 py-1 text-xs bg-gray-100 dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)] rounded-md hover:border-[1px] border-0 cursor-pointer"
                           style={{
                             backgroundColor: checkGenre(g)
-                              ? "rgb(209 213 219)"
+                              ? "rgb(255,255,255,0.5)"
                               : "",
                           }}
                           key={g.id}
@@ -416,7 +416,7 @@ export default function AnimesAdmin() {
                   id=""
                   cols="30"
                   rows="10"
-                  className="w-full h-auto border-[1px] rounded-lg outline-none text-sm p-4"
+                  className="w-full h-auto border-[1px] rounded-lg outline-none text-sm p-4 dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)]"
                   placeholder="Descriptions"
                 ></textarea>
               </div>
@@ -444,7 +444,7 @@ export default function AnimesAdmin() {
               </div>
               <button
                 type="submit"
-                className="w-full h-11 bg-black text-white rounded-lg text-sm"
+                className="w-full h-11 bg-black text-white rounded-lg text-sm dark:hover:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
               >
                 Save
               </button>

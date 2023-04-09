@@ -23,7 +23,7 @@ export default function EpisodesList(props) {
   }, [getEpisodes]);
 
   return (
-    <div className="flex flex-wrap mt-4 h-screen">
+    <div className="flex flex-wrap mt-4 h-fit">
       {!loading ? (
         <div className="grid grid-cols-4 gap-4">
           {episodes

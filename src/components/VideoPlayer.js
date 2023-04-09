@@ -80,7 +80,7 @@ export default function VideoPlayer(props) {
       }
     } else {
       setFullscreen(true);
-      const videoCont = videoContainer.current
+      const videoCont = videoContainer.current;
 
       if (videoCont.requestFullscreen) {
         videoCont.requestFullscreen();
@@ -100,6 +100,11 @@ export default function VideoPlayer(props) {
       videoRef.current.volume = 0;
       setIsMute(true);
     }
+  };
+
+  const handleVideoLoaded = (e) => {
+    setDuration(e.target.duration);
+    props.loaded(e);
   };
 
   return (
@@ -188,7 +193,8 @@ export default function VideoPlayer(props) {
         className="min-h-[400px] h-full"
         id="video-source"
         ref={videoRef}
-        onLoadedData={(evt) => setDuration(evt.target.duration)}
+        onLoadedData={handleVideoLoaded}
+        onEnded={props.ended}
       >
         <source src={props.url} />
       </video>

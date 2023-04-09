@@ -81,7 +81,7 @@ export default function VideosAdmin() {
   }, [userData]);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen dark:bg-[#17181A] dark:text-gray-300">
       <AdminLayout>
         <div className="grid grid-cols-3 gap-4">
           <div className="w-full h-auto col-span-2">
@@ -92,7 +92,7 @@ export default function VideosAdmin() {
                   {post
                     ? post.map((p) => (
                         <div
-                          className="w-full h-fit border-[1px] rounded-xl overflow-hidden hover:border-0 hover:shadow"
+                          className="w-full h-fit border-[1px] rounded-xl overflow-hidden hover:border-0 hover:shadow dark:border-[rgba(255,255,255,0.1)]"
                           key={p.id}
                         >
                           <picture>
@@ -130,7 +130,7 @@ export default function VideosAdmin() {
                   type="text"
                   name="title"
                   id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Title"
                 />
               </div>
@@ -139,7 +139,7 @@ export default function VideosAdmin() {
                   type="text"
                   name="slug"
                   id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Slug"
                 />
               </div>
@@ -148,19 +148,19 @@ export default function VideosAdmin() {
                 <input
                   type="text"
                   onChange={animeChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300"
+                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Anime"
                   id="anime-input"
                 />
                 <input type="hidden" name="anime" value={animeSelected} />
                 <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] flex-col rounded-lg z-50 hidden"
+                  className="w-full h-auto absolute bg-white p-2 border-[1px] flex-col rounded-lg z-50 hidden dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
                   id="anime-options"
                 >
                   {anime
                     ? anime.map((t) => (
                         <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg"
+                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
                           key={t.id}
                           onClick={(e) => selectAnime(t)}
                         >
@@ -176,7 +176,7 @@ export default function VideosAdmin() {
                   id=""
                   cols="30"
                   rows="10"
-                  className="w-full h-auto border-[1px] rounded-lg outline-none text-sm p-4"
+                  className="w-full h-auto border-[1px] rounded-lg outline-none text-sm p-4 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
                   placeholder="Descriptions"
                 ></textarea>
               </div>
@@ -204,7 +204,7 @@ export default function VideosAdmin() {
               </div>
               <button
                 type="submit"
-                className="w-full h-11 bg-black text-white rounded-lg text-sm"
+                className="w-full h-11 bg-black text-white rounded-lg text-sm dark:hover:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
               >
                 Save
               </button>

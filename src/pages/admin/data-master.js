@@ -265,21 +265,21 @@ export default function DataMaster() {
   }, [userData]);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen dark:bg-[#17181A] dark:text-gray-300">
       <AdminLayout>
         <h1 className="font-semibold text-xl">Data Master</h1>
         <div className="w-full mt-4">
-          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50">
+          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
             <div className="text-sm font-medium">Types</div>
             <div className="flex flex-wrap mt-3 gap-2">
               {types
                 ? types.map((t) => (
                     <form key={t.id} onSubmit={(e) => typeDestroy(e, t.id)}>
-                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md">
+                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                         <div className="text-xs">{t.name}</div>
                         <button
                           type="submit"
-                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center"
+                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                         >
                           <i className="fa-light fa-x"></i>
                         </button>
@@ -288,16 +288,16 @@ export default function DataMaster() {
                   ))
                 : ""}
               <form className="m-0 p-0" onSubmit={typeSubmit}>
-                <div className="p-1 flex bg-gray-200 rounded-md">
+                <div className="p-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                   <input
                     type="text"
                     name="name"
-                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none"
+                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none dark:focus:bg-[rgba(255,255,255,0.2)]"
                     placeholder="Name"
                   />
                   <button
                     type="submit"
-                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px]"
+                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px] dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300 "
                   >
                     <i className="fa-light fa-send"></i>
                   </button>
@@ -305,17 +305,17 @@ export default function DataMaster() {
               </form>
             </div>
           </div>
-          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 mt-4">
+          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 mt-4 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
             <div className="text-sm font-medium">Status</div>
             <div className="flex flex-wrap mt-3 gap-2">
               {statuses
                 ? statuses.map((t) => (
                     <form key={t.id} onSubmit={(e) => statusDestroy(e, t.id)}>
-                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md">
+                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                         <div className="text-xs">{t.name}</div>
                         <button
                           type="submit"
-                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center"
+                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                         >
                           <i className="fa-light fa-x"></i>
                         </button>
@@ -324,16 +324,16 @@ export default function DataMaster() {
                   ))
                 : ""}
               <form className="m-0 p-0" onSubmit={statusSubmit}>
-                <div className="p-1 flex bg-gray-200 rounded-md">
+                <div className="p-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                   <input
                     type="text"
                     name="name"
-                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none"
+                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none dark:focus:bg-[rgba(255,255,255,0.2)]"
                     placeholder="Name"
                   />
                   <button
                     type="submit"
-                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px]"
+                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px] dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                   >
                     <i className="fa-light fa-send"></i>
                   </button>
@@ -341,17 +341,17 @@ export default function DataMaster() {
               </form>
             </div>
           </div>
-          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 mt-4">
+          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 mt-4 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
             <div className="text-sm font-medium">Studios</div>
             <div className="flex flex-wrap mt-3 gap-2">
               {studios
                 ? studios.map((t) => (
                     <form key={t.id} onSubmit={(e) => studioDestroy(e, t.id)}>
-                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md">
+                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                         <div className="text-xs">{t.name}</div>
                         <button
                           type="submit"
-                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center"
+                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                         >
                           <i className="fa-light fa-x"></i>
                         </button>
@@ -360,16 +360,16 @@ export default function DataMaster() {
                   ))
                 : ""}
               <form className="m-0 p-0" onSubmit={studioSubmit}>
-                <div className="p-1 flex bg-gray-200 rounded-md">
+                <div className="p-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                   <input
                     type="text"
                     name="name"
-                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none"
+                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none dark:focus:bg-[rgba(255,255,255,0.2)]"
                     placeholder="Name"
                   />
                   <button
                     type="submit"
-                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px]"
+                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px] dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                   >
                     <i className="fa-light fa-send"></i>
                   </button>
@@ -377,17 +377,17 @@ export default function DataMaster() {
               </form>
             </div>
           </div>
-          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 mt-4">
+          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 mt-4 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
             <div className="text-sm font-medium">Seasons</div>
             <div className="flex flex-wrap mt-3 gap-2">
               {seasons
                 ? seasons.map((t) => (
                     <form key={t.id} onSubmit={(e) => seasonDestroy(e, t.id)}>
-                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md">
+                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                         <div className="text-xs">{t.name}</div>
                         <button
                           type="submit"
-                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center"
+                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                         >
                           <i className="fa-light fa-x"></i>
                         </button>
@@ -396,16 +396,16 @@ export default function DataMaster() {
                   ))
                 : ""}
               <form className="m-0 p-0" onSubmit={seasonSubmit}>
-                <div className="p-1 flex bg-gray-200 rounded-md">
+                <div className="p-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                   <input
                     type="text"
                     name="name"
-                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none"
+                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none dark:focus:bg-[rgba(255,255,255,0.2)]"
                     placeholder="Name"
                   />
                   <button
                     type="submit"
-                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px]"
+                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px] dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                   >
                     <i className="fa-light fa-send"></i>
                   </button>
@@ -413,17 +413,17 @@ export default function DataMaster() {
               </form>
             </div>
           </div>
-          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 mt-4">
+          <div className="w-full h-auto p-4 border-[1px] rounded-xl bg-gray-50 mt-4 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
             <div className="text-sm font-medium">Genres</div>
             <div className="flex flex-wrap mt-3 gap-2">
               {genres
                 ? genres.map((t) => (
                     <form key={t.id} onSubmit={(e) => genreDestroy(e, t.id)}>
-                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md">
+                      <div className="pl-2 pr-1 py-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                         <div className="text-xs">{t.name}</div>
                         <button
                           type="submit"
-                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center"
+                          className="text-[8px] ml-2 w-4 h-4 hover:bg-gray-300 rounded-md flex items-center justify-center dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                         >
                           <i className="fa-light fa-x"></i>
                         </button>
@@ -432,16 +432,16 @@ export default function DataMaster() {
                   ))
                 : ""}
               <form className="m-0 p-0" onSubmit={genreSubmit}>
-                <div className="p-1 flex bg-gray-200 rounded-md">
+                <div className="p-1 flex bg-gray-200 rounded-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]">
                   <input
                     type="text"
                     name="name"
-                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none"
+                    className="w-24 text-xs px-2 bg-transparent focus:bg-gray-100 rounded-md outline-none dark:focus:bg-[rgba(255,255,255,0.2)]"
                     placeholder="Name"
                   />
                   <button
                     type="submit"
-                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px]"
+                    className="w-4 h-4 rounded-md bg-gray-300 ml-1 text-gray-700 text-[8px] dark:bg-[rgba(255,255,255,0.1)] dark:text-gray-300"
                   >
                     <i className="fa-light fa-send"></i>
                   </button>

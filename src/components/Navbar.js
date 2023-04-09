@@ -3,10 +3,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({ subsets: ["latin"], weight: "600" });
+
 export default function Layout() {
   const [userData, setUserData] = useState();
   const [userMenus, setUserMenus] = useState(false);
   const [authorized, setAuthorized] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const router = useRouter();
 
   const closeUserMenus = (e) => {
@@ -37,6 +42,14 @@ export default function Layout() {
       });
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+
+    router.push({ pathname: "/search", query: { s: form.getAll("s")[0] } });
+  };
+
   const checkAuthorization = useCallback(
     (userData) => {
       axios
@@ -58,20 +71,38 @@ export default function Layout() {
     [router]
   );
 
+  const toggleDarkMode = () => {
+    if (isDarkMode) {
+      const html = document
+        .getElementsByTagName("html")[0]
+        .classList.remove("dark");
+      setIsDarkMode(false);
+    } else {
+      const html = document
+        .getElementsByTagName("html")[0]
+        .classList.add("dark");
+      setIsDarkMode(true);
+    }
+  };
+
   useEffect(() => {
     const userData = localStorage.getItem("user-data");
     if (userData) checkAuthorization(JSON.parse(userData));
   }, [checkAuthorization]);
 
   return (
-    <div className="w-full h-auto flex flex-wrap px-8 py-2 border-b-[1px]">
-      <Link href={"/"} className="w-auto h-11 flex items-center justify-center">
+    <div className="w-full h-auto flex flex-wrap px-8 py-2 border-b-[1px] dark:border-b-[rgba(255,255,255,0.2)] dark:bg-[#17181A] dark:text-white">
+      <Link
+        href={"/"}
+        className="w-auto h-11 flex items-center justify-center"
+        style={poppins.style}
+      >
         NIMETOON
       </Link>
-      <form action="/search" className="mx-auto">
+      <form className="mx-auto" onSubmit={handleSearch}>
         <div className="flex relative">
           <input
-            className="w-[400px] h-11 px-6 border-[1px] rounded-full focus:border-gray-400 outline-none"
+            className="w-[400px] h-11 px-6 border-[1px] rounded-full focus:border-gray-400 dark:bg-[rgba(255,255,255,0.075)] dark:border-[rgba(255,255,255,0.075)] outline-none"
             type="search"
             name="s"
             id="search"
@@ -83,15 +114,18 @@ export default function Layout() {
         </div>
       </form>
       <div className="flex gap-1">
-        <div className="w-11 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100">
+        <div
+          className="w-11 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-[rgba(255,255,255,0.1)] dark:text-gray-400"
+          onClick={toggleDarkMode}
+        >
           <i className="fa-light fa-moon"></i>
         </div>
-        <div className="w-11 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100">
+        <div className="w-11 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-[rgba(255,255,255,0.1)] dark:text-gray-400">
           <i className="fa-light fa-bell"></i>
         </div>
         {userData ? (
           <div
-            className="w-11 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100"
+            className="w-11 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100 dark:bg-[rgba(255,255,255,0.1)]"
             onClick={() => setUserMenus(true)}
           >
             <picture>
@@ -109,7 +143,7 @@ export default function Layout() {
         ) : (
           <Link
             href={"/login"}
-            className="px-6 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100 border-[1px] text-sm"
+            className="px-6 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100 border-[1px] text-sm dark:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
           >
             LOGIN
           </Link>
@@ -121,9 +155,9 @@ export default function Layout() {
           id="user-menus"
           onClick={closeUserMenus}
         >
-          <div className="w-[300px] h-fit p-2 bg-white border-[1px] rounded-xl right-2 top-[64px] absolute">
-            <div className="w-full p-2 rounded-lg border-[1px] flex items-center">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center">
+          <div className="w-[300px] h-fit p-2 bg-white border-[1px] dark:bg-[#17181A] dark:text-gray-400 dark:border-[rgba(255,255,255,0.1)] rounded-xl right-2 top-[64px] absolute">
+            <div className="w-full p-2 rounded-lg bg-gray-50 flex items-center dark:bg-[rgba(255,255,255,0.1)] ">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center">
                 <picture>
                   <img
                     src={
@@ -138,22 +172,22 @@ export default function Layout() {
               </div>
               <span className="ml-2 text-sm">{userData.user.name}</span>
             </div>
-            <hr className="my-2" />
+            <hr className="my-2 dark:border-[rgba(255,255,255,0.2)] " />
             <div className="flex flex-col">
-              <div className="w-full rounded-lg flex hover:bg-gray-100 items-center text-gray-500 hover:text-black">
+              <div className="w-full rounded-lg flex hover:bg-gray-100 items-center text-gray-500 dark:text-gray-400 hover:text-black dark:hover:bg-[rgba(255,255,255,0.1)] ">
                 <div className="w-11 h-11 cursor-pointer flex items-center justify-center">
                   <i className="fa-light fa-user"></i>
                 </div>
                 <span className="ml-2 text-sm">Profiles</span>
-              </div>
-              <div className="w-full rounded-lg flex hover:bg-gray-100 items-center text-gray-500 hover:text-black">
+              </div> 
+              <div className="w-full rounded-lg flex hover:bg-gray-100 items-center text-gray-500 dark:text-gray-400 hover:text-black dark:hover:bg-[rgba(255,255,255,0.1)]">
                 <div className="w-11 h-11 cursor-pointer flex items-center justify-center">
                   <i className="fa-light fa-cog"></i>
                 </div>
                 <span className="ml-2 text-sm">Settings</span>
               </div>
               <div
-                className="w-full rounded-lg flex hover:bg-gray-100 items-center text-gray-500 hover:text-black cursor-pointer"
+                className="w-full rounded-lg flex hover:bg-gray-100 items-center text-gray-500 dark:text-gray-400 hover:text-black cursor-pointer dark:hover:bg-[rgba(255,255,255,0.1)]"
                 onClick={() => handleLogout()}
               >
                 <div className="w-11 h-11 cursor-pointer flex items-center justify-center">

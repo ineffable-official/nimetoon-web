@@ -5,14 +5,14 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 export default function AnimePage() {
-  
-
   const [loading, setLoading] = useState(false);
   const [anime, setAnime] = useState([]);
   const router = useRouter();
   const getAnime = useCallback(() => {
     axios
-      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes?slug=" + router.query.s)
+      .get(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/animes?slug=" + router.query.s
+      )
       .then((res) => setAnime(res.data.data))
       .catch((err) => {
         throw err;
@@ -33,7 +33,14 @@ export default function AnimePage() {
                     <div className="relative">
                       <div className="w-full h-[300px] overflow-hidden flex justify-center items-center">
                         <picture>
-                          <img src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + a.images} alt="" />
+                          <img
+                            src={
+                              process.env.NEXT_PUBLIC_BASE_URL +
+                              "/storage/" +
+                              a.images
+                            }
+                            alt=""
+                          />
                         </picture>
                       </div>
                       <div className="w-full h-[300px] absolute bg-gradient-to-b from-transparent to-white border-b-[1px] top-0 left-0">
@@ -42,7 +49,7 @@ export default function AnimePage() {
                             <div className="text-2xl font-semibold">
                               {a.title}
                             </div>
-                            <div className="max-w-[1050px] overflow-hidden my-2 truncate">
+                            <div className="grid grid-cols-1 overflow-hidden my-2 truncate">
                               {a.descriptions}
                             </div>
                             <div className="flex flex-wrap gap-2">
