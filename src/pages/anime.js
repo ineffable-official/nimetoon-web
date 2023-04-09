@@ -42,6 +42,9 @@ export default function AnimePage() {
                             <div className="text-2xl font-semibold">
                               {a.title}
                             </div>
+                            <div className="max-w-[1050px] overflow-hidden my-2 truncate">
+                              {a.descriptions}
+                            </div>
                             <div className="flex flex-wrap gap-2">
                               {a.genres.map((g) => (
                                 <div

@@ -1,13 +1,16 @@
 import Link from "next/link";
 
 export default function PostCard(props) {
-  
-
   return (
     <div className="w-full h-auto hover:border-[1px] p-2 rounded-xl">
       <div className="rounded-xl overflow-hidden">
         <picture>
-          <img src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + props.data.images} alt="" />
+          <img
+            src={
+              process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + props.data.images
+            }
+            alt=""
+          />
         </picture>
       </div>
       <div className="flex flex-col">
@@ -22,6 +25,7 @@ export default function PostCard(props) {
             {props.data.viewer + " x watched"}
           </div>
         </div>
+        <div className="w-full my-1 text-gray-500 truncate text-sm">{props.data.descriptions}</div>
         <Link
           href={"/anime?s=" + props.data.anime.slug}
           className="w-full h-auto flex my-2 p-2 bg-gray-100 hover:bg-gray-200 rounded-xl items-center"
@@ -29,7 +33,11 @@ export default function PostCard(props) {
           <div className="w-10 h-10 rounded-full overflow-hidden">
             <picture>
               <img
-                src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + props.data.anime.images}
+                src={
+                  process.env.NEXT_PUBLIC_BASE_URL +
+                  "/storage/" +
+                  props.data.anime.images_square
+                }
                 className="h-10"
                 alt=""
               />

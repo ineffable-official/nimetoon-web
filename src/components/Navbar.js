@@ -1,12 +1,13 @@
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 export default function Layout() {
-  
-
   const [userData, setUserData] = useState();
   const [userMenus, setUserMenus] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
+  const router = useRouter();
 
   const closeUserMenus = (e) => {
     if (e.target.id === "user-menus") {
@@ -36,10 +37,31 @@ export default function Layout() {
       });
   };
 
+  const checkAuthorization = useCallback(
+    (userData) => {
+      axios
+        .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/account", {
+          headers: { Authorization: `Bearer ${userData.token}` },
+        })
+        .then((res) => {
+          if (res.data.status) {
+            setAuthorized(true);
+            setUserData(userData);
+          } else {
+            router.push("/login");
+          }
+        })
+        .catch((err) => {
+          throw err;
+        });
+    },
+    [router]
+  );
+
   useEffect(() => {
     const userData = localStorage.getItem("user-data");
-    setUserData(userData ? JSON.parse(userData) : null);
-  }, []);
+    if (userData) checkAuthorization(JSON.parse(userData));
+  }, [checkAuthorization]);
 
   return (
     <div className="w-full h-auto flex flex-wrap px-8 py-2 border-b-[1px]">
@@ -72,7 +94,17 @@ export default function Layout() {
             className="w-11 h-11 cursor-pointer flex items-center justify-center rounded-lg hover:bg-gray-100"
             onClick={() => setUserMenus(true)}
           >
-            <i className="fa-light fa-circle-user"></i>
+            <picture>
+              <img
+                src={
+                  userData.user.images
+                    ? userData.user.images
+                    : "https://onwaleed.sirv.com/R.png"
+                }
+                className="w-6"
+                alt=""
+              />
+            </picture>
           </div>
         ) : (
           <Link
@@ -92,7 +124,17 @@ export default function Layout() {
           <div className="w-[300px] h-fit p-2 bg-white border-[1px] rounded-xl right-2 top-[64px] absolute">
             <div className="w-full p-2 rounded-lg border-[1px] flex items-center">
               <div className="w-8 h-8 rounded-full flex items-center justify-center">
-                <i className="fa-light fa-circle-user"></i>
+                <picture>
+                  <img
+                    src={
+                      userData.user.images
+                        ? userData.user.images
+                        : "https://onwaleed.sirv.com/R.png"
+                    }
+                    className="w-6"
+                    alt=""
+                  />
+                </picture>
               </div>
               <span className="ml-2 text-sm">{userData.user.name}</span>
             </div>

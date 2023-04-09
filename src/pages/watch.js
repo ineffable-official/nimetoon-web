@@ -1,12 +1,11 @@
 import IndexLayout from "@/components/IndexLayout";
+import VideoPlayer from "@/components/VideoPlayer";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 export default function WatchPage() {
-  
-
   const [loading, setLoading] = useState(false);
   const [video, setVideo] = useState([]);
   const [record, setRecord] = useState([]);
@@ -21,7 +20,12 @@ export default function WatchPage() {
       return;
     }
     axios
-      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos?slug=" + router.query.s + "&record=true")
+      .get(
+        process.env.NEXT_PUBLIC_BASE_URL +
+          "/api/videos?slug=" +
+          router.query.s +
+          "&record=true"
+      )
       .then((res) => {
         setVideo(res.data.data);
         setRecord(res.data.record);
@@ -37,7 +41,8 @@ export default function WatchPage() {
   const videoEnd = () => {
     axios
       .post(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/viewer?user=${userData.user.id}&video=${video[0].id}`,
+        process.env.NEXT_PUBLIC_BASE_URL +
+          `/api/viewer?user=${userData.user.id}&video=${video[0].id}`,
         { headers: { Authorization: "Bearer " + userData.token } }
       )
       .then((res) => console.log(res.data))
@@ -53,7 +58,6 @@ export default function WatchPage() {
 
   return (
     <div className="w-screen h-screen overflow-hidden">
-      {console.log(watchTime)}
       <IndexLayout>
         {!loading ? (
           <div className="grid grid-cols-8 gap-4 p-8 pb-32">
@@ -61,9 +65,14 @@ export default function WatchPage() {
               {video
                 ? video.map((v) => (
                     <div className="w-full h-auto" key={v.id}>
-                      <video controls id="video-player" onEnded={videoEnd}>
-                        <source src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + v.videos}></source>
-                      </video>
+                      <VideoPlayer
+                        url={
+                          process.env.NEXT_PUBLIC_BASE_URL +
+                          "/storage/" +
+                          v.videos
+                        }
+                        videoName={v.title}
+                      />
                       <div className="text-lg my-2">{v.title}</div>
                       <div className="w-fit my-1 py-1 px-2 rounded-md text-sm bg-gray-100">
                         {v.viewer + " x watched"}
@@ -75,7 +84,11 @@ export default function WatchPage() {
                         <div className="w-8 h-8 rounded-full overflow-hidden">
                           <picture>
                             <img
-                              src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + v.anime.images}
+                              src={
+                                process.env.NEXT_PUBLIC_BASE_URL +
+                                "/storage/" +
+                                v.anime.images_square
+                              }
                               className="h-8"
                               alt=""
                             />
@@ -97,7 +110,11 @@ export default function WatchPage() {
                       <div className="rounded-xl overflow-hidden mb-2">
                         <picture>
                           <img
-                            src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + record.next.images}
+                            src={
+                              process.env.NEXT_PUBLIC_BASE_URL +
+                              "/storage/" +
+                              record.next.images
+                            }
                             className="w-full"
                             alt=""
                           />
@@ -130,7 +147,11 @@ export default function WatchPage() {
                       <div className="rounded-xl overflow-hidden mb-2">
                         <picture>
                           <img
-                            src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + record.previous.images}
+                            src={
+                              process.env.NEXT_PUBLIC_BASE_URL +
+                              "/storage/" +
+                              record.previous.images
+                            }
                             className="w-full"
                             alt=""
                           />

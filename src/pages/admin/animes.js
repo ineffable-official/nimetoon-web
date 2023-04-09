@@ -431,6 +431,17 @@ export default function AnimesAdmin() {
                   id="images"
                 />
               </div>
+              <div className="mb-2 overflow-hidden">
+                <label htmlFor="images" className="text-xs">
+                  Image Square
+                </label>
+                <input
+                  className="text-sm"
+                  type="file"
+                  name="images_square"
+                  id="images_square"
+                />
+              </div>
               <button
                 type="submit"
                 className="w-full h-11 bg-black text-white rounded-lg text-sm"

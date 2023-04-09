@@ -1,9 +1,9 @@
 import Script from "next/script";
 import "../styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 
 export default function MyApp({ Component, pageProps }) {
   return (
@@ -11,7 +11,7 @@ export default function MyApp({ Component, pageProps }) {
       <style jsx global>
         {`
           html {
-            font-family: ${inter.style.fontFamily};
+            font-family: ${poppins.style.fontFamily};
           }
         `}
       </style>
