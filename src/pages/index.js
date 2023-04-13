@@ -4,8 +4,6 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 export default function HomeIndex() {
-  
-
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
 

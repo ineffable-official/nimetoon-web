@@ -1,16 +1,15 @@
 import AdminLayout from "@/components/AdminLayout";
 import PostCard from "@/components/PostCard";
+import VideoForm from "@/components/VideoForm";
 import axios from "axios";
 import { useCallback, useEffect, useReducer, useState } from "react";
 
 export default function VideosAdmin() {
-  
   const [post, setPost] = useState([]);
-  const [anime, setAnime] = useState([]);
-
   const [userData, setUserData] = useState();
 
-  const [animeSelected, setAnimeSelected] = useState(undefined);
+  const [editing, setEditing] = useState(true);
+  const [videoSelected, setVideoSelected] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -45,24 +44,42 @@ export default function VideosAdmin() {
       });
   };
 
-  const animeChange = (e) => {
-    if (e.target.value !== "") {
-      document.getElementById("anime-options").style.display = "flex";
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+    if (form.get("images").name === "") {
+      form.delete("images");
+    }
+    if (form.get("videos").name === "") {
+      form.delete("videos");
     }
 
+    var form_data = {};
+    form_data["id"] = videoSelected.id;
+
+    form.forEach((value, key) => {
+      form_data[key] = value;
+    });
+
     axios
-      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes?search=" + e.target.value)
-      .then((res) => setAnime(res.data.data))
+      .put(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos", form_data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userData.token,
+        },
+      })
+      .then((res) => {
+        if (res.data.status) window.location.reload(false);
+      })
       .catch((err) => {
         throw err;
       });
   };
 
-  const selectAnime = (e) => {
-    setAnimeSelected(e.id);
-    document.getElementById("anime-options").style.display = "none";
-    document.getElementById("anime-input").value = e.title;
-    setAnime([]);
+  const editVideo = (video) => {
+    setEditing(true);
+    setVideoSelected(video);
   };
 
   useEffect(() => {
@@ -97,7 +114,11 @@ export default function VideosAdmin() {
                         >
                           <picture>
                             <img
-                              src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + p.images}
+                              src={
+                                process.env.NEXT_PUBLIC_BASE_URL +
+                                "/storage/" +
+                                p.images
+                              }
                               alt=""
                             />
                           </picture>
@@ -107,6 +128,17 @@ export default function VideosAdmin() {
                             </div>
                             <div className="max-h-[250px] truncate text-sm my-1 text-gray-500">
                               {p.descriptions}
+                            </div>
+                            <div className="flex gap-2">
+                              <div
+                                className="w-7 h-7 flex items-center justify-center text-[10px] bg-blue-500 rounded-lg hover:bg-blue-600 cursor-pointer"
+                                onClick={(e) => editVideo(p)}
+                              >
+                                <i className="fa-light fa-pencil"></i>
+                              </div>
+                              <div className="w-7 h-7 flex items-center justify-center text-[10px] bg-red-500 rounded-lg hover:bg-red-600 cursor-pointer">
+                                <i className="fa-light fa-x"></i>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -122,94 +154,11 @@ export default function VideosAdmin() {
               )}
             </div>
           </div>
-          <div className="w-full h-auto">
-            <h1 className="font-semibold text-xl">Add Videos</h1>
-            <form action="" className="mt-4" onSubmit={onSubmit}>
-              <div className="mb-2">
-                <input
-                  type="text"
-                  name="title"
-                  id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Title"
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="text"
-                  name="slug"
-                  id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Slug"
-                />
-              </div>
-
-              <div className="mb-2 relative">
-                <input
-                  type="text"
-                  onChange={animeChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Anime"
-                  id="anime-input"
-                />
-                <input type="hidden" name="anime" value={animeSelected} />
-                <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] flex-col rounded-lg z-50 hidden dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
-                  id="anime-options"
-                >
-                  {anime
-                    ? anime.map((t) => (
-                        <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
-                          key={t.id}
-                          onClick={(e) => selectAnime(t)}
-                        >
-                          {t.title}
-                        </div>
-                      ))
-                    : ""}
-                </div>
-              </div>
-              <div className="mb-2">
-                <textarea
-                  name="descriptions"
-                  id=""
-                  cols="30"
-                  rows="10"
-                  className="w-full h-auto border-[1px] rounded-lg outline-none text-sm p-4 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Descriptions"
-                ></textarea>
-              </div>
-              <div className="mb-2 overflow-hidden">
-                <label htmlFor="images" className="text-xs">
-                  Thumbnail
-                </label>
-                <input
-                  className="text-sm"
-                  type="file"
-                  name="images"
-                  id="images"
-                />
-              </div>
-              <div className="mb-2 overflow-hidden flex flex-col">
-                <label htmlFor="videos" className="text-xs">
-                  Video
-                </label>
-                <input
-                  className="text-sm"
-                  type="file"
-                  name="videos"
-                  id="Videos"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full h-11 bg-black text-white rounded-lg text-sm dark:hover:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
-              >
-                Save
-              </button>
-            </form>
-          </div>
+          {editing ? (
+            <VideoForm submit={handleUpdate} data={videoSelected} />
+          ) : (
+            <VideoForm submit={onSubmit} />
+          )}
         </div>
       </AdminLayout>
     </div>

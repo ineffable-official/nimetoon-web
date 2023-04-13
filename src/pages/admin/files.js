@@ -9,7 +9,7 @@ export default function VideosAdmin() {
   const [loading, setLoading] = useState(false);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const getData = () => {
+  const getData = useCallback((userData) => {
     setLoading(true);
     axios
       .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/files", {
@@ -22,7 +22,7 @@ export default function VideosAdmin() {
       .catch((err) => {
         throw err;
       });
-  };
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -47,13 +47,13 @@ export default function VideosAdmin() {
 
   useEffect(() => {
     const getAllData = (userData) => {
-      getData();
+      getData(userData);
     };
 
     if (userData && userData.token) {
       getAllData(userData);
     }
-  }, [userData]);
+  }, [userData, getData]);
 
   return (
     <div className="w-screen h-screen dark:bg-[#17181A] dark:text-gray-300">

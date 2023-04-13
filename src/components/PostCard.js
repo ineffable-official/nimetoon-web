@@ -25,7 +25,9 @@ export default function PostCard(props) {
             {props.data.viewer + " x watched"}
           </div>
         </div>
-        <div className="w-full my-1 text-gray-500 dark:text-gray-400  truncate text-sm">{props.data.descriptions}</div>
+        <div className="w-full my-1 text-gray-500 dark:text-gray-400  truncate text-sm">
+          {props.data.descriptions}
+        </div>
         <Link
           href={"/anime?s=" + props.data.anime.slug}
           className="w-full h-auto flex my-2 p-2 bg-gray-100 dark:bg-[rgba(255,255,255,0.1)] hover:bg-gray-200 rounded-xl items-center"
@@ -43,7 +45,7 @@ export default function PostCard(props) {
               />
             </picture>
           </div>
-          <span className="ml-2 text-sm">One Piece</span>
+          <span className="ml-2 text-sm">{props.data.anime.title}</span>
         </Link>
       </div>
     </div>

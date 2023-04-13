@@ -23,13 +23,13 @@ export default function EpisodesList(props) {
   }, [getEpisodes]);
 
   return (
-    <div className="flex flex-wrap mt-4 h-fit">
+    <div className="flex flex-wrap mt-4 h-fit pb-32">
       {!loading ? (
         <div className="grid grid-cols-4 gap-4">
           {episodes
             ? episodes.map((p) => (
                 <div
-                  className="w-full h-fit border-[1px] rounded-xl overflow-hidden hover:border-0 hover:shadow"
+                  className="w-full h-fit border-[1px] dark:border-[rgba(255,255,255,0.1)] rounded-xl overflow-hidden hover:border-0 hover:shadow"
                   key={p.id}
                 >
                   <picture>

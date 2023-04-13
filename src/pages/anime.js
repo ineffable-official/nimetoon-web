@@ -23,7 +23,7 @@ export default function AnimePage() {
     getAnime();
   }, [getAnime]);
   return (
-    <div className="w-screen h-screen overflow-hidden">
+    <div className="w-screen h-screen overflow-hidden dark:bg-[#17181A] dark:text-gray-300">
       <IndexLayout>
         {!loading ? (
           <div className="w-full p">
@@ -43,7 +43,7 @@ export default function AnimePage() {
                           />
                         </picture>
                       </div>
-                      <div className="w-full h-[300px] absolute bg-gradient-to-b from-transparent to-white border-b-[1px] top-0 left-0">
+                      <div className="w-full h-[301px] absolute bg-gradient-to-b from-transparent to-white dark:to-black border-b-[1px] dark:border-b-[rgba(255,255,255,0.2)] top-0 left-0">
                         <div className="w-full h-full relative">
                           <div className="absolute bottom-0 left-0 p-8">
                             <div className="text-2xl font-semibold">
@@ -55,7 +55,7 @@ export default function AnimePage() {
                             <div className="flex flex-wrap gap-2">
                               {a.genres.map((g) => (
                                 <div
-                                  className="px-2 py-1 rounded-lg bg-gray-100 text-sm"
+                                  className="px-2 py-1 rounded-lg bg-gray-100 dark:bg-[rgba(255,255,255,0.2)] text-sm"
                                   key={g.id}
                                 >
                                   {g.name}

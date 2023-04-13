@@ -3,8 +3,6 @@ import axios from "axios";
 import { useCallback, useEffect, useReducer, useState } from "react";
 
 export default function AnimesAdmin() {
-  
-
   const [userData, setUserData] = useState([]);
 
   const [post, setPost] = useState([]);
@@ -54,7 +52,10 @@ export default function AnimesAdmin() {
     const form = new FormData(e.target);
     axios
       .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes", form, {
-        headers: { Authorization: "Bearer " + userData.token },
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + userData.token,
+        },
       })
       .then((res) => {
         if (res.data.status) {
@@ -71,9 +72,14 @@ export default function AnimesAdmin() {
       document.getElementById("status-options").style.display = "flex";
     }
     axios
-      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/statuses?search=" + e.target.value, {
-        headers: { Authorization: "Bearer " + userData.token },
-      })
+      .get(
+        process.env.NEXT_PUBLIC_BASE_URL +
+          "/api/statuses?search=" +
+          e.target.value,
+        {
+          headers: { Authorization: "Bearer " + userData.token },
+        }
+      )
       .then((res) => setStatus(res.data.data))
       .catch((err) => {
         throw err;
@@ -91,9 +97,14 @@ export default function AnimesAdmin() {
       document.getElementById("studio-options").style.display = "flex";
     }
     axios
-      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/studios?search=" + e.target.value, {
-        headers: { Authorization: "Bearer " + userData.token },
-      })
+      .get(
+        process.env.NEXT_PUBLIC_BASE_URL +
+          "/api/studios?search=" +
+          e.target.value,
+        {
+          headers: { Authorization: "Bearer " + userData.token },
+        }
+      )
       .then((res) => setStudio(res.data.data))
       .catch((err) => {
         throw err;
@@ -111,9 +122,14 @@ export default function AnimesAdmin() {
       document.getElementById("season-options").style.display = "flex";
     }
     axios
-      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/seasons?search=" + e.target.value, {
-        headers: { Authorization: "Bearer " + userData.token },
-      })
+      .get(
+        process.env.NEXT_PUBLIC_BASE_URL +
+          "/api/seasons?search=" +
+          e.target.value,
+        {
+          headers: { Authorization: "Bearer " + userData.token },
+        }
+      )
       .then((res) => setSeason(res.data.data))
       .catch((err) => {
         throw err;
@@ -133,11 +149,16 @@ export default function AnimesAdmin() {
     }
 
     axios
-      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/types?search=" + e.target.value, {
-        headers: {
-          Authorization: "Bearer " + userData.token,
-        },
-      })
+      .get(
+        process.env.NEXT_PUBLIC_BASE_URL +
+          "/api/types?search=" +
+          e.target.value,
+        {
+          headers: {
+            Authorization: "Bearer " + userData.token,
+          },
+        }
+      )
       .then((res) => setType(res.data.data))
       .catch((err) => {
         throw err;
@@ -178,7 +199,7 @@ export default function AnimesAdmin() {
   useEffect(() => {
     const getAllData = (userData) => {
       getData();
-      getGenres(userData.token)
+      getGenres(userData.token);
     };
 
     if (userData && userData.token) {
@@ -203,7 +224,11 @@ export default function AnimesAdmin() {
                         >
                           <picture>
                             <img
-                              src={process.env.NEXT_PUBLIC_BASE_URL + "/storage/" + p.images}
+                              src={
+                                process.env.NEXT_PUBLIC_BASE_URL +
+                                "/storage/" +
+                                p.images
+                              }
                               alt=""
                             />
                           </picture>
