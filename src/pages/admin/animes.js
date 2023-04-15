@@ -1,26 +1,16 @@
 import AdminLayout from "@/components/AdminLayout";
+import AnimeForm from "@/components/AnimeForm";
 import axios from "axios";
 import { useCallback, useEffect, useReducer, useState } from "react";
 
 export default function AnimesAdmin() {
   const [userData, setUserData] = useState([]);
-
   const [post, setPost] = useState([]);
-  const [type, setType] = useState([]);
-  const [status, setStatus] = useState([]);
-  const [studio, setStudio] = useState([]);
-  const [season, setSeason] = useState([]);
-  const [genre, setGenre] = useState([]);
 
-  const [typeSelected, setTypeSelected] = useState(undefined);
-  const [statusSelected, setStatusSelected] = useState(undefined);
-  const [studioSelected, setStudioSelected] = useState(undefined);
-  const [seasonSelected, setSeasonSelected] = useState(undefined);
+  const [editing, setEditing] = useState(false);
+  const [animeSelected, setAnimeSelected] = useState();
 
   const [loading, setLoading] = useState(false);
-
-  const [genres, setGenres] = useState([]);
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const getData = () => {
     setLoading(true);
@@ -30,17 +20,6 @@ export default function AnimesAdmin() {
         setPost(res.data.data);
         setLoading(false);
       })
-      .catch((err) => {
-        throw err;
-      });
-  };
-
-  const getGenres = (token) => {
-    axios
-      .get(process.env.NEXT_PUBLIC_BASE_URL + "/api/genres", {
-        headers: { Authorization: "Bearer " + token },
-      })
-      .then((res) => setGenres(res.data.data))
       .catch((err) => {
         throw err;
       });
@@ -67,128 +46,40 @@ export default function AnimesAdmin() {
       });
   };
 
-  const statusChange = (e) => {
-    if (e.target.value !== "") {
-      document.getElementById("status-options").style.display = "flex";
-    }
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+
+    var form_data = {};
+    form_data["id"] = animeSelected.id;
+
+    form.forEach((value, key) => {
+      if (value === "" || value === "[]" || value.name === "") {
+        form.delete(key);
+        return;
+      }
+      form_data[key] = value;
+    });
+
     axios
-      .get(
-        process.env.NEXT_PUBLIC_BASE_URL +
-          "/api/statuses?search=" +
-          e.target.value,
-        {
-          headers: { Authorization: "Bearer " + userData.token },
-        }
-      )
-      .then((res) => setStatus(res.data.data))
+      .put(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes", form_data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userData.token,
+        },
+      })
+      .then((res) => {
+        if (res.data.status) window.location.reload(false);
+      })
       .catch((err) => {
         throw err;
       });
   };
 
-  const selectStatus = (e) => {
-    setStatusSelected(e.id);
-    document.getElementById("status-options").style.display = "none";
-    document.getElementById("status-input").value = e.name;
-    setStatus([]);
-  };
-  const studioChange = (e) => {
-    if (e.target.value !== "") {
-      document.getElementById("studio-options").style.display = "flex";
-    }
-    axios
-      .get(
-        process.env.NEXT_PUBLIC_BASE_URL +
-          "/api/studios?search=" +
-          e.target.value,
-        {
-          headers: { Authorization: "Bearer " + userData.token },
-        }
-      )
-      .then((res) => setStudio(res.data.data))
-      .catch((err) => {
-        throw err;
-      });
-  };
-
-  const selectStudio = (e) => {
-    setStudioSelected(e.id);
-    document.getElementById("studio-options").style.display = "none";
-    document.getElementById("studio-input").value = e.name;
-    setStudio([]);
-  };
-  const seasonChange = (e) => {
-    if (e.target.value !== "") {
-      document.getElementById("season-options").style.display = "flex";
-    }
-    axios
-      .get(
-        process.env.NEXT_PUBLIC_BASE_URL +
-          "/api/seasons?search=" +
-          e.target.value,
-        {
-          headers: { Authorization: "Bearer " + userData.token },
-        }
-      )
-      .then((res) => setSeason(res.data.data))
-      .catch((err) => {
-        throw err;
-      });
-  };
-
-  const selectSeason = (e) => {
-    setSeasonSelected(e.id);
-    document.getElementById("season-input").value = e.name;
-    document.getElementById("season-options").style.display = "none";
-    setSeason([]);
-  };
-
-  const typeChange = (e) => {
-    if (e.target.value !== "") {
-      document.getElementById("type-options").style.display = "flex";
-    }
-
-    axios
-      .get(
-        process.env.NEXT_PUBLIC_BASE_URL +
-          "/api/types?search=" +
-          e.target.value,
-        {
-          headers: {
-            Authorization: "Bearer " + userData.token,
-          },
-        }
-      )
-      .then((res) => setType(res.data.data))
-      .catch((err) => {
-        throw err;
-      });
-  };
-
-  const selectType = (e) => {
-    setTypeSelected(e.id);
-    document.getElementById("type-options").style.display = "none";
-    document.getElementById("type-input").value = e.name;
-    setType([]);
-  };
-
-  const selectGenre = (e) => {
-    const g = genre;
-    if (g.includes(e.id)) {
-      const index = g.indexOf(e.id);
-      g.splice(index);
-      setGenre(g);
-      forceUpdate();
-      return;
-    }
-    g.push(e.id);
-    setGenre(g);
-    forceUpdate();
-  };
-
-  const checkGenre = (e) => {
-    const gen = genre;
-    if (gen.includes(e.id)) return true;
+  const editAnime = (anime) => {
+    setEditing(true);
+    setAnimeSelected(anime);
   };
 
   useEffect(() => {
@@ -199,7 +90,6 @@ export default function AnimesAdmin() {
   useEffect(() => {
     const getAllData = (userData) => {
       getData();
-      getGenres(userData.token);
     };
 
     if (userData && userData.token) {
@@ -239,6 +129,17 @@ export default function AnimesAdmin() {
                             <div className="max-h-[250px] truncate text-sm my-1 text-gray-500">
                               {p.descriptions}
                             </div>
+                            <div className="flex gap-2">
+                              <div
+                                className="w-7 h-7 flex items-center justify-center text-[10px] bg-blue-500 rounded-lg hover:bg-blue-600 cursor-pointer"
+                                onClick={(e) => editAnime(p)}
+                              >
+                                <i className="fa-light fa-pencil"></i>
+                              </div>
+                              <div className="w-7 h-7 flex items-center justify-center text-[10px] bg-red-500 rounded-lg hover:bg-red-600 cursor-pointer">
+                                <i className="fa-light fa-x"></i>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       ))
@@ -253,228 +154,11 @@ export default function AnimesAdmin() {
               )}
             </div>
           </div>
-          <div className="w-full h-auto">
-            <h1 className="font-semibold text-xl">Add Animes</h1>
-            <form action="" className="mt-4" onSubmit={onSubmit}>
-              <div className="mb-2">
-                <input
-                  type="text"
-                  name="title"
-                  id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Title"
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="text"
-                  name="slug"
-                  id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Slug"
-                />
-              </div>
-              <div className="mb-2">
-                <input
-                  type="number"
-                  name="episodes"
-                  id=""
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Episodes"
-                />
-              </div>
-              <div className="mb-2 relative">
-                <input
-                  type="text"
-                  onChange={typeChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Type"
-                  id="type-input"
-                />
-                <input type="hidden" name="type" value={typeSelected} />
-                <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] flex-col rounded-lg z-50 hidden dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
-                  id="type-options"
-                >
-                  {type
-                    ? type.map((t) => (
-                        <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
-                          key={t.id}
-                          onClick={(e) => selectType(t)}
-                        >
-                          {t.name}
-                        </div>
-                      ))
-                    : ""}
-                </div>
-              </div>
-              <div className="mb-2 relative">
-                <input
-                  type="text"
-                  onChange={statusChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)] "
-                  placeholder="Status"
-                  id="status-input"
-                />
-                <input type="hidden" name="status" value={statusSelected} />
-                <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
-                  id="status-options"
-                >
-                  {status
-                    ? status.map((t) => (
-                        <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:hover:bg-[rgba(255,255,255,0.1)] "
-                          key={t.id}
-                          onClick={(e) => selectStatus(t)}
-                        >
-                          {t.name}
-                        </div>
-                      ))
-                    : ""}
-                </div>
-              </div>
-              <div className="mb-2 relative">
-                <input
-                  type="text"
-                  onChange={studioChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Studio"
-                  id="studio-input"
-                />
-                <input type="hidden" name="studio" value={studioSelected} />
-                <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
-                  id="studio-options"
-                >
-                  {studio
-                    ? studio.map((t) => (
-                        <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:hover:bg-[rgba(255,255,255,0.1)]"
-                          key={t.id}
-                          onClick={(e) => selectStudio(t)}
-                        >
-                          {t.name}
-                        </div>
-                      ))
-                    : ""}
-                </div>
-              </div>
-              <div className="mb-2 relative">
-                <input
-                  type="text"
-                  onChange={seasonChange}
-                  className="w-full h-11 px-4 border-[1px] rounded-lg text-sm outline-none focus:border-gray-500 border-gray-300 dark:border-[rgba(255,255,255,0.1)] dark:bg-[rgba(255,255,255,0.1)]"
-                  placeholder="Season"
-                  id="season-input"
-                />
-                <input type="hidden" name="season" value={seasonSelected} />
-                <div
-                  className="w-full h-auto absolute bg-white p-2 border-[1px] hidden flex-col rounded-lg z-50 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#17181A]"
-                  id="season-options"
-                >
-                  {season
-                    ? season.map((t) => (
-                        <div
-                          className="w-full h-10 flex items-center justify-center text-xs hover:bg-gray-100 rounded-lg dark:hover:bg-[rgba(255,255,255,0.1)]"
-                          key={t.id}
-                          onClick={(e) => selectSeason(t)}
-                        >
-                          {t.name}
-                        </div>
-                      ))
-                    : ""}
-                </div>
-              </div>
-              <div className="mb-2">
-                <label htmlFor="" className="text-xs">
-                  Aired From
-                </label>
-                <input
-                  type="date"
-                  name="aired_from"
-                  id=""
-                  className="w-full h-11 border-[1px] rounded-lg px-4 text-sm dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)]"
-                />
-              </div>
-              <div className="mb-2">
-                <label htmlFor="" className="text-xs">
-                  Aired To
-                </label>
-                <input
-                  type="date"
-                  name="aired_to"
-                  id=""
-                  className="w-full h-11 border-[1px] rounded-lg px-4 text-sm dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)]"
-                />
-              </div>
-              <div className="mb-2">
-                <div className="text-xs">Genres</div>
-                <div className="flex gap-2 my-2 pb-2 overflow-x-scroll">
-                  {genres
-                    ? genres.map((g) => (
-                        <div
-                          className="p-2 py-1 text-xs bg-gray-100 dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)] rounded-md hover:border-[1px] border-0 cursor-pointer"
-                          style={{
-                            backgroundColor: checkGenre(g)
-                              ? "rgb(255,255,255,0.5)"
-                              : "",
-                          }}
-                          key={g.id}
-                          onClick={() => selectGenre(g)}
-                        >
-                          {g.name}
-                        </div>
-                      ))
-                    : ""}
-                </div>
-                <input
-                  type="hidden"
-                  name="genres"
-                  value={JSON.stringify(genre)}
-                />
-              </div>
-              <div className="mb-2">
-                <textarea
-                  name="descriptions"
-                  id=""
-                  cols="30"
-                  rows="10"
-                  className="w-full h-auto border-[1px] rounded-lg outline-none text-sm p-4 dark:bg-[rgba(255,255,255,0.1)] dark:border-[rgba(255,255,255,0.1)]"
-                  placeholder="Descriptions"
-                ></textarea>
-              </div>
-              <div className="mb-2 overflow-hidden">
-                <label htmlFor="images" className="text-xs">
-                  Thumbnail
-                </label>
-                <input
-                  className="text-sm"
-                  type="file"
-                  name="images"
-                  id="images"
-                />
-              </div>
-              <div className="mb-2 overflow-hidden">
-                <label htmlFor="images" className="text-xs">
-                  Image Square
-                </label>
-                <input
-                  className="text-sm"
-                  type="file"
-                  name="images_square"
-                  id="images_square"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full h-11 bg-black text-white rounded-lg text-sm dark:hover:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"
-              >
-                Save
-              </button>
-            </form>
-          </div>
+          {editing ? (
+            <AnimeForm submit={handleUpdate} data={animeSelected} />
+          ) : (
+            <AnimeForm submit={onSubmit} />
+          )}
         </div>
       </AdminLayout>
     </div>
