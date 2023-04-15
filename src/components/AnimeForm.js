@@ -10,10 +10,10 @@ export default function AnimeForm(props) {
   const [season, setSeason] = useState([]);
   const [genre, setGenre] = useState([]);
 
-  const [typeSelected, setTypeSelected] = useState(undefined);
-  const [statusSelected, setStatusSelected] = useState(undefined);
-  const [studioSelected, setStudioSelected] = useState(undefined);
-  const [seasonSelected, setSeasonSelected] = useState(undefined);
+  const [typeSelected, setTypeSelected] = useState("");
+  const [statusSelected, setStatusSelected] = useState("");
+  const [studioSelected, setStudioSelected] = useState("");
+  const [seasonSelected, setSeasonSelected] = useState("");
 
   const [title, setTitle] = useState();
   const [slug, setSlug] = useState();
@@ -112,19 +112,32 @@ export default function AnimeForm(props) {
   useEffect(() => {
     setTitle(props.data ? props.data.title : "");
     setSlug(props.data ? props.data.slug : "");
-    setEpisode(props.data ? props.data.episode : "");
+    setEpisode(props.data ? props.data.episodes : "");
     setAnimeType(
       props.data ? (props.data.type ? props.data.type.name : "") : ""
+    );
+    setTypeSelected(
+      props.data ? (props.data.type ? props.data.type.id : "") : ""
     );
     setAnimeStatus(
       props.data ? (props.data.status ? props.data.status.name : "") : ""
     );
+    setStatusSelected(
+      props.data ? (props.data.status ? props.data.status.id : "") : ""
+    );
     setAnimeStudio(
       props.data ? (props.data.studio ? props.data.studio.name : "") : ""
+    );
+    setStudioSelected(
+      props.data ? (props.data.studio ? props.data.studio.id : "") : ""
     );
     setAnimeSeason(
       props.data ? (props.data.season ? props.data.season.name : "") : ""
     );
+    setSeasonSelected(
+      props.data ? (props.data.season ? props.data.season.id : "") : ""
+    );
+    props.data ? (props.data.season ? props.data.season.id : "") : "";
     setAiredFrom(props.data ? props.data.aired_from : "");
     setAiredTo(props.data ? props.data.aired_to : "");
     var genreList = [];
@@ -404,6 +417,18 @@ export default function AnimeForm(props) {
             id="images_square"
           />
         </div>
+        {props.uploadProgress > 0 ? (
+          <div className="mb-2">
+            <div className="flex w-full h-1 bg-[rgba(255,255,255,0.2)] rounded-full">
+              <div
+                className="h-1 bg-red-500 rounded-full transition-all duration-100 ease-in-out"
+                style={{ width: `${props.uploadProgress}%` }}
+              ></div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
         <button
           type="submit"
           className="w-full h-11 bg-black text-white rounded-lg text-sm dark:hover:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"

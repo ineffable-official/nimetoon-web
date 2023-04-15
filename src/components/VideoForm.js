@@ -127,6 +127,18 @@ export default function VideoForm(props) {
           </label>
           <input className="text-sm" type="file" name="videos" id="Videos" />
         </div>
+        {props.uploadProgress > 0 ? (
+          <div className="mb-2">
+            <div className="flex w-full h-1 bg-[rgba(255,255,255,0.2)] rounded-full">
+              <div
+                className="h-1 bg-red-500 rounded-full transition-all duration-100 ease-in-out"
+                style={{ width: `${props.uploadProgress}%` }}
+              ></div>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
         <button
           type="submit"
           className="w-full h-11 bg-black text-white rounded-lg text-sm dark:hover:border-[rgba(255,255,255,0.1)] dark:hover:bg-[rgba(255,255,255,0.1)]"

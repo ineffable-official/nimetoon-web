@@ -12,6 +12,7 @@ export default function VideosAdmin() {
   const [videoSelected, setVideoSelected] = useState([]);
 
   const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
@@ -35,6 +36,10 @@ export default function VideosAdmin() {
     axios
       .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos", form, {
         headers: { Authorization: "Bearer " + userData.token },
+        onUploadProgress: (progress) => {
+          var percent = (progress.loaded * 100) / progress.total;
+          setUploadProgress(percent);
+        },
       })
       .then((res) => {
         if (res.data.status) window.location.reload(false);
@@ -48,25 +53,24 @@ export default function VideosAdmin() {
     e.preventDefault();
 
     const form = new FormData(e.target);
-    if (form.get("images").name === "") {
-      form.delete("images");
-    }
-    if (form.get("videos").name === "") {
-      form.delete("videos");
-    }
 
-    var form_data = {};
-    form_data["id"] = videoSelected.id;
+    form.append("_method", "PUT");
+    form.append("id", videoSelected.id);
 
     form.forEach((value, key) => {
-      form_data[key] = value;
+      if (value === "") {
+        form.delete(key);
+      }
     });
 
     axios
-      .put(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos", form_data, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/videos", form, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: "Bearer " + userData.token,
+        },
+        onUploadProgress: (progress) => {
+          var percent = (progress.loaded * 100) / progress.total;
+          setUploadProgress(percent);
         },
       })
       .then((res) => {
@@ -155,9 +159,13 @@ export default function VideosAdmin() {
             </div>
           </div>
           {editing ? (
-            <VideoForm submit={handleUpdate} data={videoSelected} />
+            <VideoForm
+              submit={handleUpdate}
+              data={videoSelected}
+              uploadProgress={uploadProgress}
+            />
           ) : (
-            <VideoForm submit={onSubmit} />
+            <VideoForm submit={onSubmit} uploadProgress={uploadProgress} />
           )}
         </div>
       </AdminLayout>

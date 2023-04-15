@@ -12,6 +12,8 @@ export default function AnimesAdmin() {
 
   const [loading, setLoading] = useState(false);
 
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   const getData = () => {
     setLoading(true);
     axios
@@ -34,6 +36,10 @@ export default function AnimesAdmin() {
         headers: {
           "Access-Control-Allow-Origin": "*",
           Authorization: "Bearer " + userData.token,
+          onUploadProgress: (progress) => {
+            var percent = (progress.loaded * 100) / progress.total;
+            setUploadProgress(percent);
+          },
         },
       })
       .then((res) => {
@@ -51,22 +57,23 @@ export default function AnimesAdmin() {
 
     const form = new FormData(e.target);
 
-    var form_data = {};
-    form_data["id"] = animeSelected.id;
+    form.append("_method", "PUT");
+    form.append("id", animeSelected.id);
 
     form.forEach((value, key) => {
-      if (value === "" || value === "[]" || value.name === "") {
+      if ((value === "") | (value.name === "")) {
         form.delete(key);
-        return;
       }
-      form_data[key] = value;
     });
 
     axios
-      .put(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes", form_data, {
+      .post(process.env.NEXT_PUBLIC_BASE_URL + "/api/animes", form, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: "Bearer " + userData.token,
+          onUploadProgress: (progress) => {
+            var percent = (progress.loaded * 100) / progress.total;
+            setUploadProgress(percent);
+          },
         },
       })
       .then((res) => {
@@ -155,9 +162,13 @@ export default function AnimesAdmin() {
             </div>
           </div>
           {editing ? (
-            <AnimeForm submit={handleUpdate} data={animeSelected} />
+            <AnimeForm
+              submit={handleUpdate}
+              data={animeSelected}
+              uploadProgress={uploadProgress}
+            />
           ) : (
-            <AnimeForm submit={onSubmit} />
+            <AnimeForm submit={onSubmit} uploadProgress={uploadProgress} />
           )}
         </div>
       </AdminLayout>
